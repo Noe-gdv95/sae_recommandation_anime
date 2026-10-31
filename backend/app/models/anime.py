@@ -10,3 +10,5 @@ class Anime(Base, BaseModelMixin):
     nb_episodes = Column(Integer, nullable=True)
     note_moyenne = Column(Float, nullable=True)
     nb_membres = Column(Integer, nullable=True)
+
+    genres = relationship("Genre", secondary=anime_genre, back_populates="animes")
