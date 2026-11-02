@@ -1,7 +1,9 @@
+import html
 from pathlib import Path
+
 import pandas as pd
 
-#Chemin du fichier CSV
+# Chemin du dossier data 
 
 DOSSIER_DATA = Path(__file__).resolve().parents[2] / "data"
 
@@ -14,5 +16,26 @@ def charger():
     return anime, notes
 
 
+def nettoyer_genres(texte):
+    if pd.isna(texte):
+        return None
+
+    morceaux = texte.split(",")
+
+    genres = []
+    for morceau in morceaux:
+        genre = morceau.strip()
+        if genre != "":
+            genres.append(genre)
+
+    genres = list(dict.fromkeys(genres))
+
+    if len(genres) == 0:
+        return None
+    return ", ".join(genres)
+
+
 if __name__ == "__main__":
-    anime, notes = charger()
+    print(nettoyer_genres("Comedy, Sci-Fi, Shounen, Shounen"))
+    print(nettoyer_genres("  Action ,Drama"))
+    print(nettoyer_genres(None))
