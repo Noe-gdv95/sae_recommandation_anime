@@ -12,3 +12,4 @@ class Anime(Base, BaseModelMixin):
     nb_membres = Column(Integer, nullable=True)
 
     genres = relationship("Genre", secondary=anime_genre, back_populates="animes")
+    ratings = relationship("Rating", back_populates="anime", cascade="all, delete-orphan")
