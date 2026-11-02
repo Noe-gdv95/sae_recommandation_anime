@@ -30,6 +30,13 @@ class AnimeSqliteORM:
         finally:
             session.close()
 
+    def findById(self, anime_id):
+        session = self.connect()
+        try:
+            return self._query_anime_full(session).filter(Anime.id == anime_id).first()
+        finally:
+            session.close()
+
     def get_home_stats(self):
         session = self.connect()
         try:
