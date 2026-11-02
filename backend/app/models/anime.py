@@ -1,5 +1,8 @@
 from sqlalchemy import Column, Integer, String, Float
 from app.models.base import Base, BaseModelMixin
+from sqlalchemy.orm import relationship
+from app.models.association import anime_genre
+
 
 class Anime(Base, BaseModelMixin):
     __tablename__ = 'animes'
