@@ -1,0 +1,16 @@
+from flask import Flask
+from app.blueprints import animes_bp
+
+def create_app():
+    app = Flask(__name__)
+
+    app.config['SECRET_KEY'] = 'cle-secrete-sae-anime'
+
+    app.register_blueprint(animes_bp)
+
+    @app.route('/')
+    def home():
+        return {"message" : "API de recommandation d'Animes en ligne"}
+    
+    return app
+    
