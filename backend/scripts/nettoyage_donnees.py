@@ -68,6 +68,29 @@ def nettoyer_anime(anime):
     return anime
 
 
+
+def nettoyer_notes(notes, ids_anime):
+    print("\n--- Nettoyage de rating.csv ---")
+    depart = len(notes)
+
+    avant = len(notes)
+    notes = notes[notes["rating"] != -1]
+    print(f"Notes à -1 retirées : {avant - len(notes)}")
+
+    avant = len(notes)
+    notes = notes[notes["anime_id"].isin(ids_anime)]
+    print(f"Notes d'anime retirés ou inconnus : {avant - len(notes)}")
+
+    avant = len(notes)
+    notes = notes.drop_duplicates(subset=["user_id", "anime_id"], keep="last")
+    print(f"Doublons utilisateur/anime retirés : {avant - len(notes)}")
+
+    print(f"=> {len(notes)} notes gardées sur {depart}")
+    return notes
+
+
+
 if __name__ == "__main__":
     anime, notes = charger()
     anime = nettoyer_anime(anime)
+    notes = nettoyer_notes(notes, set(anime["anime_id"]))
