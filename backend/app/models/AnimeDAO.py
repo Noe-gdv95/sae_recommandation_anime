@@ -37,6 +37,13 @@ class AnimeSqliteORM:
         finally:
             session.close()
 
+    def findAllGenres(self):
+        session = self.connect()
+        try:
+            return session.query(Genre).order_by(Genre.nom).all()
+        finally:
+            session.close()
+
     def get_home_stats(self):
         session = self.connect()
         try:
