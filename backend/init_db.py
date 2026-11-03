@@ -3,7 +3,6 @@ from sqlalchemy.orm import sessionmaker
 from app.models.base import get_engine, Base
 from app.models.anime import Anime
 from app.models.rating import Rating
-from app.models.genre import Genre
 
 def seed_db():
     engine = get_engine()
@@ -14,28 +13,32 @@ def seed_db():
     Session = sessionmaker(bind=engine)
     session = Session()
 
-
-    print ("Insertion des Animes en cours...")
-    anime_df = pd.read_csv('../data/anime_propre.csv')
+    print("Insertion des Animes en cours...")
+    anime_df = pd.read_csv('../data/anime.csv')
     for _, row in anime_df.iterrows():
         anime = Anime(
-            anime_id=row['anime_id'], 
-            name=row['name'], 
-            type=row['type'] if pd.notna(row['type']) else None)
+            id=row['anime_id'], 
+            nom=row['name'], 
+            type=row['type'] if pd.notna(row['type']) else None,
+            nb_episodes=row['episodes'] if 'episodes' in row and pd.notna(row['episodes']) else None,
+            note_moyenne=row['rating'] if 'rating' in row and pd.notna(row['rating']) else None
+        )
         session.add(anime)
     
     print("Insertion des Notes en cours...")
-    rating_df = pd.read_csv('../data/rating_propre.csv')
+    rating_df = pd.read_csv('../data/rating.csv')
     notes_a_inserer = [
-        Rating(user_id=r['user_id'], anime_id=r['anime_id'], rating=r['rating'])
+        Rating(
+            user_id=r['user_id'], 
+            anime_id=r['anime_id'], 
+            rating=r['rating']
+        )
         for _, r in rating_df.iterrows()
-
     ]
 
     session.bulk_save_objects(notes_a_inserer)
-
     session.commit()
     print("Succès ! Fichier de base de données créé et rempli.")
 
-if __name__ == '__main__' :
+if __name__ == '__main__':
     seed_db()
