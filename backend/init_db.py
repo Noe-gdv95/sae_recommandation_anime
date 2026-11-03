@@ -11,5 +11,14 @@ def seed_db():
     Base.metadata.create_all(engine)
     print("Tables créées.")
 
+    Session = sessionmaker(bind=engine)
+    session = Session()
+
+    anime_df = pd.read_csv('../data/anime_propre.csv')
+    for _, row in anime_df.iterrows():
+        anime = Anime(anime_id=row['anime_id'], name=row['name'], type=row['type'] if pd.notna(row['type']) else None)
+        session.add(anime)
+    session.commit()
+
 if __name__ == '__main__' :
     seed_db()
