@@ -89,8 +89,14 @@ def nettoyer_notes(notes, ids_anime):
     return notes
 
 
+def sauvegarder(anime, notes):
+    anime.to_csv(DOSSIER_DATA / "anime_propre.csv", index=False)
+    notes.to_csv(DOSSIER_DATA / "rating_propre.csv", index=False)
+    print("\nFichiers écrits : data/anime_propre.csv et data/rating_propre.csv")
+
 
 if __name__ == "__main__":
     anime, notes = charger()
     anime = nettoyer_anime(anime)
     notes = nettoyer_notes(notes, set(anime["anime_id"]))
+    sauvegarder(anime, notes)
