@@ -9,7 +9,7 @@ class Anime(Base, BaseModelMixin):
 
     id = Column(Integer, primary_key=True)
     nom = Column(String(255), nullable=False, index=True)
-    type = Column(String(50), nullable=False)
+    type = Column(String(50), nullable=True)
     nb_episodes = Column(Integer, nullable=True)
     note_moyenne = Column(Float, nullable=True)
     nb_membres = Column(Integer, nullable=True)

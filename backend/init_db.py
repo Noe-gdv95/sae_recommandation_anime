@@ -14,7 +14,7 @@ def seed_db():
     session = Session()
 
     print("Insertion des Animes en cours...")
-    anime_df = pd.read_csv('../data/anime.csv')
+    anime_df = pd.read_csv('../data/anime_propre.csv')
     for _, row in anime_df.iterrows():
         anime = Anime(
             id=row['anime_id'], 
@@ -26,7 +26,7 @@ def seed_db():
         session.add(anime)
     
     print("Insertion des Notes en cours...")
-    rating_df = pd.read_csv('../data/rating.csv')
+    rating_df = pd.read_csv('../data/rating_propre.csv')
     notes_a_inserer = [
         Rating(
             user_id=r['user_id'], 
