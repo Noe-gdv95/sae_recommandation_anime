@@ -37,3 +37,10 @@ def get_animes():
         result.append(anime_vers_dict(anime))
 
     return jsonify(result)
+
+@animes_bp.route('/api/animes/<int:anime_id>', methods=['GET'])
+def get_anime(anime_id):
+    anime = anime_service.get_anime_by_id(anime_id)
+    if anime is None:
+        return jsonify({"erreur": "Anime introuvable"}), 404
+    return jsonify(anime_vers_dict(anime))
