@@ -22,7 +22,7 @@ def get_animes():
             "id" : anime.id,
             "nom" : anime.nom,
             "type" : anime.type,
-            "nb_episodes" : anime.note_moyenne,
+            "nb_episodes" : anime.nb_episodes,
             "genres" : [genre.nom for genre in anime.genres]
         })
     
