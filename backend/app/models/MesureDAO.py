@@ -4,7 +4,7 @@ from app.models.base import get_engine
 from app.models.mesure import Mesure
 
 class MesureSqliteORM:
-    def init(self, db_uri=None):
+    def __init__(self, db_uri=None):
         self.engine = get_engine(db_uri)
         self.SessionFactory = sessionmaker(bind=self.engine, expire_on_commit=False)
 
@@ -20,3 +20,26 @@ class MesureSqliteORM:
         finally:
             session.close()
 
+    def findDernieres(self, limite=50):
+        session = self.connect()
+        try:
+            return session.query(Mesure).order_by(Mesure.date_mesure.desc()).limit(limite).all()
+        finally:
+            session.close()
+
+    def resume_par_methode(self):
+        session = self.connect()
+        try:
+            return (
+                session.query(
+                    Mesure.methode,
+                    func.count(Mesure.id),
+                    func.min(Mesure.temps_ms),
+                    func.max(Mesure.temps_ms),
+                    func.avg(Mesure.temps_ms),
+                )
+                .group_by(Mesure.methode)
+                .all()
+            )
+        finally:
+            session.close()
