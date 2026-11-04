@@ -24,10 +24,13 @@ def get_stats():
 
 @animes_bp.route('/api/animes', methods=['GET'])
 def get_animes():
+    recherche = request.args.get('q', type=str)
     genre_id = request.args.get('genre_id', type=int)
     type_anime = request.args.get('type_anime', type=str)
+    limite = request.args.get('limit', default=20, type=int)
+    limite = max(1, min(limite, 100))
 
-    animes = anime_service.get_all_animes(genre_id=genre_id, type_anime=type_anime)
+    animes = anime_service.get_all_animes(recherche=recherche, genre_id=genre_id, type_anime=type_anime, limite=limite)
 
     result = []
     for anime in animes:

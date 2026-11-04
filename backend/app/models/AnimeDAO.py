@@ -15,19 +15,27 @@ class AnimeSqliteORM:
     def _query_anime_full(self, session):
         return session.query(Anime).options(selectinload(Anime.genres))
 
-    def findAll(self, genre_id = None, type_anime = None):
+    def findAll(self, recherche=None, genre_id=None, type_anime=None, limite=None):
         session = self.connect()
         try:
             query = self._query_anime_full(session)
 
+            if recherche:
+                query = query.filter(Anime.nom.ilike(f"%{recherche}%"))
+
             if genre_id :
                 query = query.filter(Anime.genres.any(id=genre_id))
-            
+
             if type_anime:
                 query = query.filter(Anime.type == type_anime)
-            
-            return query.order_by(Anime.nom).all()
-        
+
+            query = query.order_by(Anime.nb_membres.desc())
+
+            if limite:
+                query = query.limit(limite)
+
+            return query.all()
+
         finally:
             session.close()
 
