@@ -37,7 +37,6 @@ def inserer_animes(session, anime_df):
     session.execute(insert(Anime), lignes)
     print(f"Anime insérés : {len(lignes)}")
 
-
 def inserer_genres(session, anime_df):
     tous_les_genres = set()
     for texte in anime_df["genre"]:
@@ -61,5 +60,26 @@ def inserer_genres(session, anime_df):
 def inserer_notes(session, rating_df, taille_paquet=100_000):
     for debut in range(0, len(rating_df), taille_paquet):
         paquet = rating_df.iloc[debut:debut + taille_paquet]
-        session.execute(inserert(Rating), paquet.to_dict("records"))
+        session.execute(insert(Rating), paquet.to_dict("records"))
     print(f"Notes insérées : {len(rating_df)}")
+
+def seed_db():
+    depart = time.perf_counter()
+    engine = get_engine()
+    creer_tables(engine)
+
+    anime_df = pd.read_csv(DOSSIER_DATA / "anime_propre.csv")
+    rating_df = pd.read_csv(DOSSIER_DATA / "rating_propre.csv")
+
+    Session = sessionmaker(bind=engine)
+    session = Session()
+    inserer_animes(session, anime_df)
+    inserer_genres(session, anime_df)
+    inserer_notes(session, rating_df)
+    session.commit()
+    session.close()
+
+    print(f"Base remplie en {time.perf_counter() - depart:.1f} s")
+
+if __name__ == "__main__":
+    seed_db()
