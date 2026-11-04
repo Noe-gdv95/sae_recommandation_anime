@@ -2,6 +2,7 @@ from sqlalchemy.orm import sessionmaker, selectinload
 from app.models.base import get_engine
 from app.models.anime import Anime
 from app.models.genre import Genre
+from app.models.rating import Rating
 
 class AnimeSqliteORM:
     def __init__(self, db_uri=None):
