@@ -37,7 +37,7 @@ def inserer_animes(session, anime_df):
     session.execute(insert(Anime), lignes)
     print(f"Anime insérés : {len(lignes)}")
 
-    
+
 def inserer_genres(session, anime_df):
     tous_les_genres = set()
     for texte in anime_df["genre"]:
@@ -57,3 +57,9 @@ def inserer_genres(session, anime_df):
                 liens.append({"anime_id": int(anime_id), "genre_id": id_par_genre[genre]})
     session.execute(insert(anime_genre), liens)
     print(f"Genres insérés : {len(id_par_genre)}, liens anime-genre : {len(liens)}")
+
+def inserer_notes(session, rating_df, taille_paquet=100_000):
+    for debut in range(0, len(rating_df), taille_paquet):
+        paquet = rating_df.iloc[debut:debut + taille_paquet]
+        session.execute(inserert(Rating), paquet.to_dict("records"))
+    print(f"Notes insérées : {len(rating_df)}")
