@@ -10,6 +10,7 @@ from app.models.anime import Anime
 from app.models.genre import Genre
 from app.models.rating import Rating
 from app.models.association import anime_genre
+from app.models.mesure import Mesure
 
 DOSSIER_DATA = Path(__file__).resolve().parents[1] / "data"
 
