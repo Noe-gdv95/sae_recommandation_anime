@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
+
     <script src="app.js" defer></script>
 </head>
 <body>
@@ -17,6 +18,53 @@
             <a href="#mesures">Performances</a>
         </nav>
     </header>
+
+     <main>
+
+                <section class="accueil" id="accueil">
+            <div class="accueil_contenu">
+                <h1>Trouve ton prochain anime</h1>
+                <p class="accueil_intro">
+                    Cherche un anime que tu as aimé. On te propose des titres proches,
+                    selon leurs genres ou les goûts des autres spectateurs.
+                </p>
+
+                 <form class="recherche" id="formulaire-recherche" role="search">
+                    <label class="recherche_champ recherche_champ--texte">
+                        <span class="recherche__libelle">Titre</span>
+                        <input type="search" id="recherche" name="q"
+                               placeholder="Death Note, Naruto…" autocomplete="off">
+                    </label>
+ 
+                    <label class="recherche_champ" id="champ-genre" hidden>
+                        <span class="recherche_libelle">Genre</span>
+                        <select id="filtre-genre" name="genre_id">
+                            <option value="">Tous les genres</option>
+                        </select>
+                    </label>
+ 
+                    <label class="recherche_champ">
+                        <span class="recherche_libelle">Format</span>
+                        <select id="filtre-type" name="type_anime">
+                            <option value="">Tous les formats</option>
+                            <option value="TV">Série TV</option>
+                            <option value="Movie">Film</option>
+                            <option value="OVA">OVA</option>
+                            <option value="ONA">ONA</option>
+                            <option value="Special">Épisode spécial</option>
+                            <option value="Music">Clip musical</option>
+                        </select>
+                    </label>
+                </form>
+ 
+                <p class="accueil_stats" id="stats"></p>
+            </div>
+        </section>
+
+
+
+
+     </main>
 
 </body>
 </html>
