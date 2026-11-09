@@ -12,8 +12,8 @@
 </head>
 <body>
     <header class="entete">
-        <a class="entete__logo" href="#accueil">AnimeReco</a>
-        <nav class="entete__nav" aria-label="Navigation principale">
+        <a class="entete_logo" href="#accueil">AnimeReco</a>
+        <nav class="entete_nav" aria-label="Navigation principale">
             <a href="#catalogue">Catalogue</a>
             <a href="#mesures">Performances</a>
         </nav>
@@ -60,6 +60,17 @@
                 <p class="accueil_stats" id="stats"></p>
             </div>
         </section>
+
+        <section class="section" id="catalogue" aria-labelledby="titre-catalogue">
+            <div class="section__entete">
+                <h2 id="titre-catalogue">Catalogue</h2>
+                <p class="section__compteur" id="compteur" aria-live="polite"></p>
+            </div>
+ 
+            <p class="message" id="message" role="status"></p>
+            <ul class="grille" id="grille"></ul>
+        </section>
+
 
 
 
