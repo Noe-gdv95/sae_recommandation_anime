@@ -71,11 +71,53 @@
             <ul class="grille" id="grille"></ul>
         </section>
 
+                <section class="section" id="mesures" aria-labelledby="titre-mesures">
+            <div class="section__entete">
+                <h2 id="titre-mesures">Temps de calcul des recommandations</h2>
+                <button class="bouton" type="button" id="bouton-actualiser">Actualiser</button>
+            </div>
+            <p class="section__intro">
+                Chaque recommandation demandée est chronométrée. Ce graphique compare
+                les méthodes entre elles.
+            </p>
+ 
+            <p class="message" id="message-mesures" role="status"></p>
+ 
+            <div class="mesures">
+                <div class="mesures__graphique">
+                    <canvas id="graphique-mesures"
+                            role="img"
+                            aria-label="Temps minimum, moyen et maximum par méthode de recommandation"></canvas>
+                </div>
+ 
+                <div class="mesures__tableau">
+                    <table>
+                        <caption>Dernières mesures</caption>
+                        <thead>
+                            <tr>
+                                <th scope="col">Méthode</th>
+                                <th scope="col">Anime</th>
+                                <th scope="col">Temps (ms)</th>
+                                <th scope="col">Résultats</th>
+                                <th scope="col">Date</th>
+                            </tr>
+                        </thead>
+                        <tbody id="corps-mesures"></tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+ 
+    </main>
+ 
+    <footer class="pied">
+        <p>SAE - Moteur de recommandation d'animes</p>
+    </footer>
+
+       <!-- FICHE D'UN ANIME -->
 
 
 
-
-     </main>
 
 </body>
 </html>
