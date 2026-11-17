@@ -198,5 +198,90 @@ function creerLigneReco(reco) {
 
 //  Mesures de performance
 
+async function chargerMesures() {
+    setMessage("message-mesures", "Chargement…");
+    try {
+        const [resume, dernieres] = await Promise.all([api("/api/mesures/resume"), api("/api/mesures")]);
+        dessinerGraphique(resume);
+        remplirTableauMesures(liste(dernieres, "mesures"));
+        setMessage("message-mesures", "");
+    } catch {
+        setMessage("message-mesures", "Impossible de charger les mesures.", true);
+    }
+}
+
+function dessinerGraphique(resume) {
+    if (typeof Chart === "undefined") {
+        return setMessage("message-mesures", "Chart.js non chargé.", true);
+    }
+
+    const keys = Object.keys(resume);
+    const labels = keys.map((id) => METHODES.find((m) => m.id === id)?.libelle ?? id);
+    const datasets = [
+        { label: "Min (ms)", data: keys.map((k) => resume[k].temps_min_ms), backgroundColor: "#dce3ff" },
+        { label: "Moyen (ms)", data: keys.map((k) => resume[k].temps_moyen_ms), backgroundColor: "#2b3cff" },
+        { label: "Max (ms)", data: keys.map((k) => resume[k].temps_max_ms), backgroundColor: "#d6224f" },
+    ];
+
+    if (graphique) {
+        Object.assign(graphique.data, { labels, datasets });
+        return graphique.update();
+    }
+
+    graphique = new Chart($("graphique-mesures"), {
+        type: "bar",
+        data: { labels, datasets },
+        options: { responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: true } } },
+    });
+}
+
+function remplirTableauMesures(mesures) {
+    const tbody = $("corps-mesures");
+    tbody.replaceChildren();
+
+    if (!mesures.length) {
+        tbody.insertRow().insertCell().textContent = "Aucune mesure : ouvre une fiche anime pour en créer.";
+        tbody.rows[0].cells[0].colSpan = 5;
+        return;
+    }
+
+    mesures.forEach((m) => {
+        const tr = tbody.insertRow();
+        [
+            m.methode,
+            m.anime_id,
+            Number(m.temps_ms).toFixed(1).replace(".", ","),
+            m.nb_resultats,
+            m.date_mesure ? new Date(m.date_mesure).toLocaleString("fr-FR") : "—",
+        ].forEach((val) => tr.insertCell().textContent = val ?? "—");
+    });
+}
+
+// Événements & Démarrage
+
+$("formulaire-recherche").onsubmit = (e) => {
+    e.preventDefault();
+    clearTimeout(minuteurRecherche);
+    chargerCatalogue();
+};
+$("recherche").oninput = () => {
+    clearTimeout(minuteurRecherche);
+    minuteurRecherche = setTimeout(chargerCatalogue, 300);
+};
+$("filtre-genre").onchange = chargerCatalogue;
+$("filtre-type").onchange = chargerCatalogue;
+
+$("fiche-fermer").onclick = () => $("fiche").close();
+$("fiche").onclick = (e) => { if (e.target === $("fiche")) $("fiche").close(); };
+$("fiche").onclose = chargerMesures;
+$("bouton-actualiser").onclick = chargerMesures;
+
+creerOnglets();
+chargerStats();
+chargerGenres();
+chargerCatalogue();
+chargerMesures();
+
+
 
 
