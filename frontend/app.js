@@ -23,5 +23,30 @@ let minuteurRecherche = null;
 
 
 // Outils
+async function api(chemin) {
+    const res = await fetch(API_URL + chemin);
+    if (!res.ok) throw Object.assign(new Error(`Erreur ${res.status}`), { status: res.status });
+    return res.json();
+}
 
+const liste = (data, cle) => Array.isArray(data) ? data : (data?.[cle] ?? data?.resultats ?? []);
+const fmtNombre = (n) => n == null ? "—" : Number(n).toLocaleString("fr-FR");
+const fmtNote = (n) => n == null ? "—" : Number(n).toFixed(2).replace(".", ",");
+
+function setMessage(id, texte, estErreur = false) {
+    const el = $(id);
+    el.textContent = texte;
+    el.classList.toggle("message--erreur", estErreur);
+}
+
+function remplirGenres(ul, genres, max = Infinity) {
+    ul.replaceChildren(...genres.slice(0, max).map((g) => {
+        const li = document.createElement("li");
+        li.className = "etiquette";
+        li.textContent = g;
+        return li;
+    }));
+}
+
+// Statistiques & Genres
 
