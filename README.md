@@ -1,5 +1,7 @@
 # Recommandation d'anime : SAÉ 5.Real.01
 
+**Première version de l’application**
+
 **Dépôt Git :** https://github.com/Noe-gdv95/sae_recommandation_anime
 
 Application web qui recommande des anime à partir d'un anime choisi,
