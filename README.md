@@ -1,4 +1,7 @@
-# Recommandation d'anime : 
+# Recommandation d'anime : SAÉ 5.Real.01
+
+**Dépôt Git :** https://github.com/Noe-gdv95/sae_recommandation_anime
+
 Application web qui recommande des anime à partir d'un anime choisi,
 et chronomètre chaque recommandation pour comparer les méthodes.
 
@@ -11,6 +14,13 @@ et chronomètre chaque recommandation pour comparer les méthodes.
 - Goncalves De Veiga Noé : API et base de données
 - Diakité Badjiry : frontend
 - Bouciouf Tallal : algorithme de recommandation
+
+## Version actuelle : v0.1.0
+- Catalogue, recherche par titre et filtre par format
+- Fiche d'un anime avec ses recommandations
+- **Méthode 1, par contenu** : indice de Jaccard sur les genres
+- Mesure du temps de chaque recommandation (graphique et tableau)
+- Méthode 2 (collaborative) prévue pour la version finale
 
 ## Installation
 
@@ -32,7 +42,8 @@ sae_recommandation_anime/
 ### 2. Créer l'environnement Python
 Depuis la racine du projet :
 ```bash
-python -m venv venv
+python -m venv venv      # Windows
+python3 -m venv venv     # Linux / macOS
 ```
 - Windows : `.\venv\Scripts\activate`
 - Linux / macOS : `source venv/bin/activate`
@@ -50,7 +61,7 @@ python init_db.py
 ```
 Le nettoyage crée `data/anime_propre.csv` et `data/rating_propre.csv`
 (il retire les notes à -1, les contenus pour adultes et les doublons).
-`init_db.py` crée `backend/anime_reco.db` .
+`init_db.py` crée la base `backend/anime_reco.db`.
 
 ## Lancement
 
@@ -62,7 +73,6 @@ L'API tourne sur http://localhost:8000
 
 **Terminal 2 : le site** (depuis `frontend/`)
 ```bash
-python -m http.server 5500
+python -m http.server 5500 --bind 127.0.0.1
 ```
 Ouvrir http://localhost:5500
-
