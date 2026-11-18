@@ -27,6 +27,14 @@ class MesureSqliteORM:
         finally:
             session.close()
 
+    def findTempsParMethode(self):
+        """Toutes les paires (methode, temps_ms), pour calculer médiane et centiles."""
+        session = self.connect()
+        try:
+            return session.query(Mesure.methode, Mesure.temps_ms).all()
+        finally:
+            session.close()
+
     def resume_par_methode(self):
         session = self.connect()
         try:

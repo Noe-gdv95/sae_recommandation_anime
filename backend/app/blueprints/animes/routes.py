@@ -1,8 +1,17 @@
 from flask import Blueprint, jsonify, request
 from app.services.AnimeService import AnimeService
+from app.services.ContenuService import ContenuService
+from app.services.MesureService import MesureService
 
 animes_bp = Blueprint('animes', __name__)
 anime_service = AnimeService()
+mesure_service = MesureService()
+
+# Une entrée par méthode de recommandation ; la Méthode 2 (filtrage collaboratif)
+# s'ajoutera ici sous la clé "collaboratif" (nom attendu par le frontend).
+services_recommandation = {
+    ContenuService.METHODE: ContenuService(),
+}
 
 
 def anime_vers_dict(anime):
@@ -44,3 +53,33 @@ def get_anime(anime_id):
     if anime is None:
         return jsonify({"erreur": "Anime introuvable"}), 404
     return jsonify(anime_vers_dict(anime))
+
+
+@animes_bp.route('/api/animes/<int:anime_id>/recommandations', methods=['GET'])
+def get_recommandations(anime_id):
+    methode = request.args.get('methode', default='contenu', type=str)
+    limite = request.args.get('limit', default=10, type=int)
+    limite = max(1, min(limite, 50))
+
+    service = services_recommandation.get(methode)
+    if service is None:
+        return jsonify({"erreur": f"Méthode '{methode}' indisponible"}), 404
+
+    if anime_service.get_anime_by_id(anime_id) is None:
+        return jsonify({"erreur": "Anime introuvable"}), 404
+
+    recos, temps_ms = mesure_service.chronometrer(methode, anime_id, service.recommander, anime_id, limite)
+
+    return jsonify({
+        "methode": methode,
+        "anime_id": anime_id,
+        "temps_ms": round(temps_ms, 2),
+        "recommandations": [
+            {
+                "anime": anime_vers_dict(reco["anime"]),
+                "score": reco["score"],
+                "genres_communs": reco["genres_communs"],
+            }
+            for reco in recos
+        ],
+    })
