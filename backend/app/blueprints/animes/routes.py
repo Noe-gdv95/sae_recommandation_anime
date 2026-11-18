@@ -7,8 +7,6 @@ animes_bp = Blueprint('animes', __name__)
 anime_service = AnimeService()
 mesure_service = MesureService()
 
-# Une entrée par méthode de recommandation ; la Méthode 2 (filtrage collaboratif)
-# s'ajoutera ici sous la clé "collaboratif" (nom attendu par le frontend).
 services_recommandation = {
     ContenuService.METHODE: ContenuService(),
 }

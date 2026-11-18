@@ -1,9 +1,3 @@
-"""
-Tests de la Méthode 1 (Jaccard) et des statistiques de mesure, sur des données
-écrites à la main (pas besoin de la base).
-
-Lancement depuis backend/ :  python -m unittest discover tests
-"""
 import unittest
 
 from app.services.ContenuService import ContenuService, jaccard
@@ -12,12 +6,12 @@ from app.services.MesureService import centile, statistiques
 ACTION, DRAME, FANTASTIQUE, COMEDIE, ROMANCE = 1, 2, 3, 4, 5
 
 LIENS = [
-    (10, ACTION), (10, DRAME), (10, FANTASTIQUE),   # anime choisi
-    (20, ACTION), (20, DRAME), (20, FANTASTIQUE),   # mêmes genres -> 1
-    (30, ACTION), (30, FANTASTIQUE), (30, COMEDIE), # 2/4 -> 0,5
-    (40, ACTION), (40, FANTASTIQUE), (40, ROMANCE), # 2/4 -> 0,5 aussi
-    (50, COMEDIE), (50, ROMANCE),                   # aucun genre commun -> 0
-    (60, DRAME),                                    # 1/3
+    (10, ACTION), (10, DRAME), (10, FANTASTIQUE),
+    (20, ACTION), (20, DRAME), (20, FANTASTIQUE),
+    (30, ACTION), (30, FANTASTIQUE), (30, COMEDIE),
+    (40, ACTION), (40, FANTASTIQUE), (40, ROMANCE),
+    (50, COMEDIE), (50, ROMANCE),
+    (60, DRAME),
 ]
 INFOS = [
     (10, "TV", 1000), (20, "Movie", 50), (30, "Movie", 9000),
@@ -26,7 +20,7 @@ INFOS = [
 
 
 def service_de_test():
-    service = ContenuService(dao=object())  # DAO jamais utilisé : données injectées
+    service = ContenuService(dao=object())
     service.charger_donnees(LIENS, INFOS)
     return service
 
@@ -52,8 +46,6 @@ class TestContenuService(unittest.TestCase):
         self.assertAlmostEqual(dict(recos)[60], 1 / 3)
 
     def test_egalite_departagee_par_type_puis_popularite(self):
-        # 30 et 40 ont tous deux 0,5 : 40 est une série TV comme l'anime 10, il passe devant
-        # bien que 30 soit plus populaire.
         recos = self.service.calculer(10, limite=10)
         self.assertLess([a for a, _ in recos].index(40), [a for a, _ in recos].index(30))
 
@@ -80,7 +72,7 @@ class TestStatistiques(unittest.TestCase):
         self.assertEqual(stats["temps_min_ms"], 1.0)
         self.assertEqual(stats["temps_max_ms"], 100.0)
         self.assertEqual(stats["temps_moyen_ms"], 22.0)
-        self.assertEqual(stats["temps_median_ms"], 3.0)  # la médiane ignore la valeur extrême
+        self.assertEqual(stats["temps_median_ms"], 3.0)
 
     def test_centile(self):
         valeurs = list(range(1, 101))

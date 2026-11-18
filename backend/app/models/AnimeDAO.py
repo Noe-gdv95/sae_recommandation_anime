@@ -56,7 +56,6 @@ class AnimeSqliteORM:
             session.close()
 
     def findInfosAnimes(self):
-        """(id, type, nb_membres) de tous les anime, sans charger les objets complets."""
         session = self.connect()
         try:
             return session.query(Anime.id, Anime.type, Anime.nb_membres).all()
@@ -64,7 +63,6 @@ class AnimeSqliteORM:
             session.close()
 
     def findLiensAnimeGenre(self):
-        """Toutes les paires (anime_id, genre_id) de la table d'association."""
         session = self.connect()
         try:
             return session.query(anime_genre.c.anime_id, anime_genre.c.genre_id).all()

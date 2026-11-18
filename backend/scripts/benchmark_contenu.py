@@ -1,9 +1,3 @@
-"""
-Benchmark de la Méthode 1 (Jaccard) : version naïve contre version avec index inversé.
-
-Lancement depuis backend/ (base déjà remplie) :
-    python -m scripts.benchmark_contenu
-"""
 import random
 import time
 
@@ -25,7 +19,7 @@ def main():
     temps_chargement = chrono_ms(service.charger_si_besoin)
 
     ids = list(service.genres_par_anime)
-    random.seed(42)  # même échantillon à chaque lancement
+    random.seed(42)
     echantillon = random.sample(ids, min(NB_ANIME_TESTES, len(ids)))
 
     total_candidats = 0
@@ -46,7 +40,6 @@ def main():
         print(f"Version {nom:<14} min {s['temps_min_ms']:6.2f} ms | médiane {s['temps_median_ms']:6.2f} ms"
               f" | moyenne {s['temps_moyen_ms']:6.2f} ms | max {s['temps_max_ms']:6.2f} ms")
 
-    # Vérification : les deux versions donnent les mêmes recommandations
     differences = 0
     for anime_id in echantillon:
         if service.calculer(anime_id, 10, naif=True) != service.calculer(anime_id, 10):
