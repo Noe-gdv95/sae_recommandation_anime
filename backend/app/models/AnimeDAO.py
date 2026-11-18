@@ -1,6 +1,7 @@
 from sqlalchemy.orm import sessionmaker, selectinload
 from app.models.base import get_engine
 from app.models.anime import Anime
+from app.models.association import anime_genre
 from app.models.genre import Genre
 from app.models.rating import Rating
 
@@ -43,6 +44,28 @@ class AnimeSqliteORM:
         session = self.connect()
         try:
             return self._query_anime_full(session).filter(Anime.id == anime_id).first()
+        finally:
+            session.close()
+
+    def findByIds(self, ids):
+        session = self.connect()
+        try:
+            animes = self._query_anime_full(session).filter(Anime.id.in_(ids)).all()
+            return {anime.id: anime for anime in animes}
+        finally:
+            session.close()
+
+    def findInfosAnimes(self):
+        session = self.connect()
+        try:
+            return session.query(Anime.id, Anime.type, Anime.nb_membres).all()
+        finally:
+            session.close()
+
+    def findLiensAnimeGenre(self):
+        session = self.connect()
+        try:
+            return session.query(anime_genre.c.anime_id, anime_genre.c.genre_id).all()
         finally:
             session.close()
 
