@@ -1,6 +1,6 @@
 # Recommandation d'anime : SAÉ 5.Real.01
 
-**Première version de l’application**
+**Première version de l'application**
 
 **Dépôt Git :** https://github.com/Noe-gdv95/sae_recommandation_anime
 
@@ -17,7 +17,7 @@ et chronomètre chaque recommandation pour comparer les méthodes.
 - Diakité Badjiry : frontend
 - Bouciouf Tallal : algorithme de recommandation
 
-## Version actuelle : v0.1.0
+## Contenu de cette première version
 - Catalogue, recherche par titre et filtre par format
 - Fiche d'un anime avec ses recommandations
 - **Méthode 1, par contenu** : indice de Jaccard sur les genres
@@ -26,8 +26,11 @@ et chronomètre chaque recommandation pour comparer les méthodes.
 
 ## Installation
 
+> **Avec le zip du rendu :** le dossier `data/` et la base `backend/anime_reco.db`
+> sont déjà inclus. Il suffit de faire l'étape 2, puis de passer au Lancement.
+
 ### 1. Télécharger les données
-Le dataset n'est pas dans le dépôt (trop lourd).
+Le dataset n'est pas dans le dépôt Git (trop lourd).
 1. Télécharger le dataset sur Kaggle (lien ci-dessus).
 2. Créer un dossier `data/` à la racine du projet.
 3. Y placer `anime.csv` et `rating.csv`.
@@ -75,6 +78,6 @@ L'API tourne sur http://localhost:8000
 
 **Terminal 2 : le site** (depuis `frontend/`)
 ```bash
-python -m http.server 5500 --bind 127.0.0.1
+python -m http.server 5500 
 ```
 Ouvrir http://localhost:5500
